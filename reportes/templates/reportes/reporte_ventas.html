@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Reporte de Ventas</h2>
+    <form method="get" class="row g-3 mb-3">
+        <div class="col-md-3">
+            {{ filtro_form.fecha_inicio.label_tag }}
+            {{ filtro_form.fecha_inicio }}
+        </div>
+        <div class="col-md-3">
+            {{ filtro_form.fecha_fin.label_tag }}
+            {{ filtro_form.fecha_fin }}
+        </div>
+        <div class="col-md-4">
+            {{ filtro_form.libro.label_tag }}
+            {{ filtro_form.libro }}
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+    </form>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Usuario</th>
+                <th>Libros Vendidos</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venta in ventas %}
+            <tr>
+                <td>{{ venta.fecha_venta|date:'Y-m-d H:i' }}</td>
+                <td>{{ venta.usuario }}</td>
+                <td>
+                    <ul class="mb-0">
+                        {% for det in venta.detalles.all %}
+                        <li>{{ det.libro }} x {{ det.cantidad }} (${% widthratio det.subtotal 1 1 %})</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>${{ venta.total }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No hay ventas registradas.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if is_paginated %}
+    <nav>
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?{% if filtro_form.data %}{{ filtro_form.data.urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}">Anterior</a></li>
+            {% endif %}
+            <li class="page-item disabled"><span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span></li>
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?{% if filtro_form.data %}{{ filtro_form.data.urlencode }}&{% endif %}page={{ page_obj.next_page_number }}">Siguiente</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

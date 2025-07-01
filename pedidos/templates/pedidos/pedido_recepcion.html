@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Recepción de Pedido</h2>
+    <div class="mb-3">
+        <strong>Proveedor:</strong> {{ pedido.proveedor }}<br>
+        <strong>Fecha de Pedido:</strong> {{ pedido.fecha_pedido }}<br>
+        <strong>Estado:</strong> {{ pedido.estado_pedido }}
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Libro</th>
+                    <th>Cantidad Pedida</th>
+                    <th>Cantidad Recibida</th>
+                    <th>Costo Unitario</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in formset %}
+                <tr>
+                    <td>{{ form.instance.libro }}</td>
+                    <td>{{ form.instance.cantidad_pedida }}</td>
+                    <td>{{ form.cantidad_recibida }}
+                        {% for error in form.cantidad_recibida.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </td>
+                    <td>${{ form.instance.costo_unitario_acordado }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex gap-2 justify-content-end mt-3">
+            <button type="submit" class="btn btn-success">Registrar Recepción</button>
+            <a href="{% url 'pedido_create' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-4">
-    <h2>Pedido a Proveedor</h2>
+    <h2>Nuevo Pedido a Proveedor</h2>
     <form method="post">
         {% csrf_token %}
         <div class="mb-3">
@@ -47,11 +47,9 @@
                 </div>
             {% endfor %}
         </div>
-        <div class="d-flex gap-2 justify-content-end mt-3">
-            <button type="button" class="btn btn-secondary mb-2" id="add-form">Agregar libro</button>
-            <button type="submit" class="btn btn-success">Guardar Pedido</button>
-            <a href="{% url 'proveedor_list' %}" class="btn btn-secondary">Cancelar</a>
-        </div>
+        <button type="button" class="btn btn-secondary" id="add-form">Agregar libro</button>
+        <button type="submit" class="btn btn-success">Guardar Pedido</button>
+        <a href="{% url 'proveedor_list' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 <script>

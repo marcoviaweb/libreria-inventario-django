@@ -39,6 +39,7 @@
     </nav>
     <div class="container-fluid">
         <div class="row">
+            {% if request.user.is_authenticated %}
             <nav class="col-md-2 d-none d-md-block sidebar py-4">
                 <div class="position-sticky">
                     <ul class="nav flex-column">
@@ -56,13 +57,22 @@
                         <li class="nav-item"><hr></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'reporte_libros_stock' %}"><i class="bi bi-clipboard-check"></i> Libros en Stock</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'reporte_libros_stock_bajo' %}"><i class="bi bi-exclamation-triangle"></i> Libros con Stock Bajo</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'reporte_movimientos_inventario' %}"><i class="bi bi-arrow-left-right"></i> Movimientos de Inventario</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'reporte_movimientos_inventario' %}"><i class="bi bi-arrow-left-right"></i> Movimientos</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'reporte_ventas' %}"><i class="bi bi-bar-chart"></i> Ventas</a></li>
                         <li class="nav-item"><hr></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'usuario_list' %}"><i class="bi bi-people"></i> Usuarios</a></li>
+                        <li class="nav-item">
+                            <form id="logout-form" method="post" action="{% url 'logout' %}" style="margin-left:17px;">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link text-danger" style="background:none;border:none;padding-left:0;">
+                                    <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </nav>
+            {% endif %}
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
                 {% if messages %}
                     {% for message in messages %}

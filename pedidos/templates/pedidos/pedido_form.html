@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Pedido a Proveedor</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ pedido_form.proveedor.label_tag }}
+            {{ pedido_form.proveedor }}
+            {% for error in pedido_form.proveedor.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <hr>
+        <h5>Libros a Pedir</h5>
+        <div id="formset-area">
+            {{ formset.management_form }}
+            {% for form in formset %}
+                <div class="row align-items-end mb-2 border-bottom pb-2">
+                    <div class="col-md-6">
+                        {{ form.libro.label_tag }}
+                        {{ form.libro }}
+                        {% for error in form.libro.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form.cantidad_pedida.label_tag }}
+                        {{ form.cantidad_pedida }}
+                        {% for error in form.cantidad_pedida.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-3">
+                        {{ form.costo_unitario_acordado.label_tag }}
+                        {{ form.costo_unitario_acordado }}
+                        {% for error in form.costo_unitario_acordado.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-1">
+                        {# Ocultamos el checkbox DELETE del formset #}
+                        {% if formset.can_delete %}
+                            <span style="display:none;">{{ form.DELETE }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="d-flex gap-2 justify-content-end mt-3">
+            <button type="button" class="btn btn-secondary mb-2" id="add-form">Agregar libro</button>
+            <button type="submit" class="btn btn-success">Guardar Pedido</button>
+            <a href="{% url 'proveedor_list' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+<script>
+    // Mapeo de id de libro a costo (inyectado desde la vista)
+    const libroCostos = {{ libro_costos|safe }};
+    document.addEventListener('DOMContentLoaded', function() {
+        const addFormBtn = document.getElementById('add-form');
+        const formsetArea = document.getElementById('formset-area');
+        let totalForms = document.getElementById('id_form-TOTAL_FORMS');
+        addFormBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const currentFormCount = parseInt(totalForms.value);
+            const newForm = formsetArea.children[1].cloneNode(true);
+            // Limpiar valores
+            newForm.querySelectorAll('input, select').forEach(function(input) {
+                if (input.type === 'number' || input.tagName === 'SELECT') {
+                    input.value = '';
+                }
+            });
+            // Actualizar los atributos name/id de los campos
+            newForm.innerHTML = newForm.innerHTML.replaceAll(`form-${currentFormCount-1}-`, `form-${currentFormCount}-`);
+            formsetArea.appendChild(newForm);
+            totalForms.value = currentFormCount + 1;
+        });
+    });
+</script>
+{% endblock %}

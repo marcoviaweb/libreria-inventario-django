@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Eliminar Rol</h2>
+    <p>¿Está seguro que desea eliminar el rol <strong>{{ object.nombre_rol }}</strong>?</p>
+    {% if not can_delete %}
+        <div class="alert alert-danger">No se puede eliminar este rol porque hay usuarios asignados.</div>
+        <a href="{% url 'rol_list' %}" class="btn btn-secondary">Volver</a>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{% url 'rol_list' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

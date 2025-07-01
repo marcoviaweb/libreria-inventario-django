@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Gestión de Roles</h2>
+    <a href="{% url 'rol_create' %}" class="btn btn-primary mb-3">Nuevo Rol</a>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rol in roles %}
+            <tr>
+                <td>{{ rol.nombre_rol }}</td>
+                <td>{{ rol.descripcion }}</td>
+                <td>
+                    <a href="{% url 'rol_update' rol.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'rol_delete' rol.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3">No hay roles registrados.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

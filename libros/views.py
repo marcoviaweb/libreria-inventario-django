@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib import messages
@@ -35,5 +35,16 @@ class LibroListView(LoginRequiredMixin, ListView):
         if isbn:
             queryset = queryset.filter(isbn__icontains=isbn)
         return queryset.order_by('titulo')
+
+class LibroUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Libro
+    form_class = LibroForm
+    template_name = 'libros/libro_form.html'
+    success_url = reverse_lazy('libro_list')
+    permission_required = 'libros.change_libro'
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Libro actualizado exitosamente.')
+        return super().form_valid(form)
 
 # Create your views here.

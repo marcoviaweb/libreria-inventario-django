@@ -28,6 +28,7 @@
                     <th>ISBN</th>
                     <th>Precio de Venta</th>
                     <th>Stock Actual</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,11 +40,14 @@
                         <td>{{ libro.isbn }}</td>
                         <td>${{ libro.precio_venta }}</td>
                         <td>{{ libro.stock_actual }}</td>
+                        <td>
+                            <a href="{% url 'libro_update' libro.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="5" class="text-center">No se encontraron libros.</td>
+                        <td colspan="6" class="text-center">No se encontraron libros.</td>
                     </tr>
                 {% endif %}
             </tbody>

@@ -4,8 +4,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib import messages
 from django.shortcuts import redirect
-from .models import Rol
-from .forms import RolForm
+from .models import Rol, Usuario
+from .forms import RolForm, UsuarioCreationForm, UsuarioChangeForm
 
 class RolListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Rol
@@ -48,5 +48,46 @@ class RolDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
             return redirect('rol_list')
         messages.success(request, 'Rol eliminado exitosamente.')
         return super().post(request, *args, **kwargs)
+
+class UsuarioListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = Usuario
+    template_name = 'usuarios/usuario_list.html'
+    context_object_name = 'usuarios'
+    permission_required = 'usuarios.view_usuario'
+
+class UsuarioCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = Usuario
+    form_class = UsuarioCreationForm
+    template_name = 'usuarios/usuario_form.html'
+    success_url = reverse_lazy('usuario_list')
+    permission_required = 'usuarios.add_usuario'
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Usuario creado exitosamente.')
+        return super().form_valid(form)
+
+class UsuarioUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Usuario
+    form_class = UsuarioChangeForm
+    template_name = 'usuarios/usuario_form.html'
+    success_url = reverse_lazy('usuario_list')
+    permission_required = 'usuarios.change_usuario'
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Usuario actualizado exitosamente.')
+        return super().form_valid(form)
+
+class UsuarioDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = Usuario
+    template_name = 'usuarios/usuario_confirm_delete.html'
+    success_url = reverse_lazy('usuario_list')
+    permission_required = 'usuarios.delete_usuario'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_active = False
+        self.object.save()
+        messages.success(request, 'Usuario deshabilitado exitosamente.')
+        return redirect(self.success_url)
 
 # Create your views here.

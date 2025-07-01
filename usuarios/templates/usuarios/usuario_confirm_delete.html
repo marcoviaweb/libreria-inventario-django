@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Deshabilitar Usuario</h2>
+    <p>¿Está seguro que desea deshabilitar al usuario <strong>{{ object.username }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Deshabilitar</button>
+        <a href="{% url 'usuario_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

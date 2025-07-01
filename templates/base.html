@@ -44,18 +44,22 @@
                     <ul class="nav flex-column">
                         <li class="nav-item"><a class="nav-link" href="{% url 'libro_list' %}"><i class="bi bi-book"></i> Catálogo de Libros</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'libro_create' %}"><i class="bi bi-plus-circle"></i> Registrar Libro</a></li>
+                        <li class="nav-item"><hr></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'entrada_manual' %}"><i class="bi bi-box-arrow-in-down"></i> Ingreso de Stock</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'ajuste_stock' %}"><i class="bi bi-pencil-square"></i> Ajuste de Stock</a></li>
+                        <li class="nav-item"><hr></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'proveedor_list' %}"><i class="bi bi-truck"></i> Proveedores</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'venta_create' %}"><i class="bi bi-cash"></i> Ventas</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'reporte_ventas' %}"><i class="bi bi-bar-chart"></i> Reporte de Ventas</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'usuario_list' %}"><i class="bi bi-people"></i> Usuarios</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'rol_list' %}"><i class="bi bi-person-badge"></i> Roles</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'pedido_create' %}"><i class="bi bi-clipboard-plus"></i> Pedido a Proveedor</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'pedido_list' %}"><i class="bi bi-clipboard-data"></i> Pedidos a Proveedor</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'reporte_libros_stock' %}"><i class="bi bi-clipboard-check"></i> Reporte Libros en Stock</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'pedido_create' %}"><i class="bi bi-clipboard-plus"></i> Pedido a Proveedor</a></li>
+                        <li class="nav-item"><hr></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'venta_create' %}"><i class="bi bi-cash"></i> Registrar Venta</a></li>
+                        <li class="nav-item"><hr></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'reporte_libros_stock' %}"><i class="bi bi-clipboard-check"></i> Libros en Stock</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'reporte_libros_stock_bajo' %}"><i class="bi bi-exclamation-triangle"></i> Libros con Stock Bajo</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'reporte_movimientos_inventario' %}"><i class="bi bi-arrow-left-right"></i> Movimientos de Inventario</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'reporte_ventas' %}"><i class="bi bi-bar-chart"></i> Ventas</a></li>
+                        <li class="nav-item"><hr></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'usuario_list' %}"><i class="bi bi-people"></i> Usuarios</a></li>
                     </ul>
                 </div>
             </nav>

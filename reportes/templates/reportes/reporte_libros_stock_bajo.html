@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Reporte de Libros con Stock Bajo</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>ISBN</th>
+                <th>Stock Actual</th>
+                <th>Stock Mínimo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for libro in libros %}
+            <tr {% if libro.stock_actual <= libro.stock_minimo %}class="table-warning"{% endif %}>
+                <td>{{ libro.titulo }}</td>
+                <td>{{ libro.autor }}</td>
+                <td>{{ libro.isbn }}</td>
+                <td>{{ libro.stock_actual }}</td>
+                <td>{{ libro.stock_minimo }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No hay libros con stock bajo.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
